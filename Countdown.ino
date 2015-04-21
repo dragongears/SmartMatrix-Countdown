@@ -63,12 +63,12 @@ void loop() {
 
     d = elapsedDays(eventTime) - elapsedDays(now());
 
+    matrix.fillRectangle(0, 22, 31, 31, {0x00, 0x00, 0x00});
+
     if (d > 0) {
         date[0] = '0' + d / 100;
         date[1] = '0' + (d / 10) % 10;
         date[2] = '0' + d % 10;
-
-        matrix.fillRectangle(0, 22, 31, 31, {0x00, 0x00, 0x00});
 
         if (d <= 9) {
             matrix.setFont(font8x13);
