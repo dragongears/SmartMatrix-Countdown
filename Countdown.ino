@@ -1,6 +1,6 @@
 /*
  * SmartMatrix Countdown
- * Version 0.1.0
+ * Version 0.1.1
  * Copyright (c) 2014 Art Dahm (art@dahm.com)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -57,7 +57,7 @@ void setup() {
 }
 
 void loop() {
-    int d = 0;
+    int16_t d = 0;
     char date[] = "xxx";
     char days[] = "Days";
 
