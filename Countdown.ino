@@ -1,6 +1,6 @@
 /*
  * SmartMatrix Countdown
- * Version 0.1.0
+ * Version 0.1.1
  * Copyright (c) 2014 Art Dahm (art@dahm.com)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -28,11 +28,11 @@
 #include "bitmap_sw.c"
 
 SmartMatrix matrix;
-//rgb24 textColor = {0xfe, 0xd7, 0x1e};
-rgb24 textColor = {0xf9, 0xff, 0xff};
+rgb24 textColor = {0xfe, 0xd7, 0x1e};
+//rgb24 textColor = {0xf9, 0xff, 0xff};
 
-//tmElements_t eventDate = {0, 0, 0, 0, 28, 7, CalendarYrToTm(2015)};
-tmElements_t eventDate = {0, 0, 0, 0, 17, 4, CalendarYrToTm(2015)};
+tmElements_t eventDate = {0, 0, 0, 0, 18, 12, CalendarYrToTm(2015)};
+
 time_t eventTime = makeTime(eventDate);
 
 void setup() {
@@ -57,18 +57,18 @@ void setup() {
 }
 
 void loop() {
-    int d = 0;
+    int16_t d = 0;
     char date[] = "xxx";
     char days[] = "Days";
 
     d = elapsedDays(eventTime) - elapsedDays(now());
 
+    matrix.fillRectangle(0, 22, 31, 31, {0x00, 0x00, 0x00});
+
     if (d > 0) {
         date[0] = '0' + d / 100;
         date[1] = '0' + (d / 10) % 10;
         date[2] = '0' + d % 10;
-
-        matrix.fillRectangle(0, 22, 31, 31, {0x00, 0x00, 0x00});
 
         if (d <= 9) {
             matrix.setFont(font8x13);
@@ -86,8 +86,10 @@ void loop() {
         matrix.setFont(font3x5);
         matrix.drawString(17, 26, textColor, days);
     } else {
-        matrix.setFont(font8x13);
-        matrix.drawString(0, 20, textColor, "2015");
+        matrix.setFont(font3x5);
+        matrix.drawString(2, 19, textColor, "EPISODE");
+        matrix.setFont(font5x7);
+        matrix.drawString(9, 26, textColor, "VII");
     }
 
     matrix.swapBuffers(false);
