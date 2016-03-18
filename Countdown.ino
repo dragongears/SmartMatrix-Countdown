@@ -24,15 +24,15 @@
 
 #include <Time.h>
 #include <SmartMatrix_32x32.h>
-#include "bitmap.c"
-//#include "bitmap_sw.c"
+//#include "bitmap.c"
+#include "bitmap_sw.c"
 
 SmartMatrix matrix;
 rgb24 textColor = {0xfe, 0xd7, 0x1e};
 //rgb24 textColor = {0xf9, 0xff, 0xff};
 
-tmElements_t eventDate = {0, 0, 0, 0, 28, 7, CalendarYrToTm(2015)};
-//tmElements_t eventDate = {0, 0, 0, 0, 17, 4, CalendarYrToTm(2015)};
+tmElements_t eventDate = {0, 0, 0, 0, 18, 12, CalendarYrToTm(2015)};
+
 time_t eventTime = makeTime(eventDate);
 
 void setup() {
@@ -86,8 +86,10 @@ void loop() {
         matrix.setFont(font3x5);
         matrix.drawString(17, 26, textColor, days);
     } else {
-        matrix.setFont(font8x13);
-        matrix.drawString(0, 20, textColor, "2015");
+        matrix.setFont(font3x5);
+        matrix.drawString(2, 19, textColor, "EPISODE");
+        matrix.setFont(font5x7);
+        matrix.drawString(9, 26, textColor, "VII");
     }
 
     matrix.swapBuffers(false);
