@@ -25,13 +25,13 @@
 #include <Time.h>
 #include <SmartMatrix_32x32.h>
 //#include "bitmap.c"
-#include "bitmap_iml.c"
+#include "bitmap_pride.c"
 
 SmartMatrix matrix;
 rgb24 textColor = {0xff, 0xff, 0xff};
 //rgb24 textColor = {0xf9, 0xff, 0xff};
 
-tmElements_t eventDate = {0, 0, 0, 0, 26, 5, CalendarYrToTm(2017)};
+tmElements_t eventDate = {0, 0, 0, 0, 9, 6, CalendarYrToTm(2017)};
 
 time_t eventTime = makeTime(eventDate);
 
