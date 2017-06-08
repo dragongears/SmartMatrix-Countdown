@@ -24,14 +24,14 @@
 
 #include <Time.h>
 #include <SmartMatrix_32x32.h>
-#include "bitmap.c"
-//#include "bitmap_sw.c"
+//#include "bitmap.c"
+#include "bitmap_pride.c"
 
 SmartMatrix matrix;
-rgb24 textColor = {0xfe, 0xd7, 0x1e};
+rgb24 textColor = {0xff, 0xff, 0xff};
 //rgb24 textColor = {0xf9, 0xff, 0xff};
 
-tmElements_t eventDate = {0, 0, 0, 0, 3, 8, CalendarYrToTm(2016)};
+tmElements_t eventDate = {0, 0, 0, 0, 9, 6, CalendarYrToTm(2017)};
 
 time_t eventTime = makeTime(eventDate);
 
@@ -63,7 +63,7 @@ void loop() {
 
     d = elapsedDays(eventTime) - elapsedDays(now());
 
-    matrix.fillRectangle(0, 22, 31, 31, {0x00, 0x00, 0x00});
+    matrix.fillRectangle(0, 20, 31, 31, {0x00, 0x00, 0x00});
 
     if (d > 0) {
         date[0] = '0' + d / 100;
@@ -72,22 +72,22 @@ void loop() {
 
         if (d <= 9) {
             matrix.setFont(font8x13);
-            matrix.drawString(5, 20, textColor, &date[2]);
+            matrix.drawString(5, 18, textColor, &date[2]);
         } else if (d <= 99) {
             matrix.setFont(font6x10);
-            matrix.drawString(3, 23, textColor, &date[1]);
+            matrix.drawString(3, 21, textColor, &date[1]);
         } else {
             matrix.setFont(font5x7);
-            matrix.drawString(0, 25, textColor, date);
+            matrix.drawString(0, 23, textColor, date);
         }
 
         if (d == 1) days[3] = 0x00;
 
         matrix.setFont(font3x5);
-        matrix.drawString(17, 26, textColor, days);
+        matrix.drawString(17, 24, textColor, days);
     } else {
         matrix.setFont(font8x13);
-        matrix.drawString(0, 20, textColor, "2016");
+        matrix.drawString(0, 18, textColor, "2017");
     }
 
     matrix.swapBuffers(false);
