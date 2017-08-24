@@ -27,13 +27,16 @@
 #include "bitmap.c"
 //#include "bitmap_sw.c"
 
-SmartMatrix matrix;
+// Change these variables for a new countdown
+tmElements_t eventDate = {0, 0, 0, 0, 31, 7, CalendarYrToTm(2018)};
+char eventYear[] = "2018";
+
 rgb24 textColor = {0xfe, 0xd7, 0x1e};
 //rgb24 textColor = {0xf9, 0xff, 0xff};
 
-tmElements_t eventDate = {0, 0, 0, 0, 3, 8, CalendarYrToTm(2016)};
-
 time_t eventTime = makeTime(eventDate);
+
+SmartMatrix matrix;
 
 void setup() {
     setSyncProvider(getTeensy3Time);
@@ -44,7 +47,10 @@ void setup() {
     int i;
     rgb24 *buffer;
 
+    // Get the back buffer for th image
     buffer = matrix.backBuffer();
+
+    // Copy the image into the buffer
     if ((bitmap_image.width <= matrix.getScreenWidth()) &&
     (bitmap_image.height <= matrix.getScreenHeight()))
         for (i = 0; i < matrix.getScreenWidth() * matrix.getScreenHeight(); i++) {
@@ -53,6 +59,7 @@ void setup() {
             buffer[i].blue = bitmap_image.pixel_data[i * 3 + 2];
         }
 
+    // Show the image (swapBuffers is really a copy unless false is passed in)
     matrix.swapBuffers(true);
 }
 
@@ -61,15 +68,19 @@ void loop() {
     char date[] = "xxx";
     char days[] = "Days";
 
+    // Get the number of days until the event
     d = elapsedDays(eventTime) - elapsedDays(now());
 
+    // Clear the countdown area
     matrix.fillRectangle(0, 22, 31, 31, {0x00, 0x00, 0x00});
 
     if (d > 0) {
+        // Fill in the date string withe the number of days
         date[0] = '0' + d / 100;
         date[1] = '0' + (d / 10) % 10;
         date[2] = '0' + d % 10;
 
+        // Choose the font size based on the number of digits
         if (d <= 9) {
             matrix.setFont(font8x13);
             matrix.drawString(5, 20, textColor, &date[2]);
@@ -81,18 +92,23 @@ void loop() {
             matrix.drawString(0, 25, textColor, date);
         }
 
+        // Erase the 's' in 'Days' if only one day left
         if (d == 1) days[3] = 0x00;
 
+        // Draw the word 'Days' or 'Day"
         matrix.setFont(font3x5);
         matrix.drawString(17, 26, textColor, days);
     } else {
+        // Past the event date. Show the year in the countdown area
         matrix.setFont(font8x13);
-        matrix.drawString(0, 20, textColor, "2016");
+        matrix.drawString(0, 20, textColor, eventYear);
     }
 
+    // Show the updated display
     matrix.swapBuffers(false);
 
 
+    // Wait before updating display
     delay(10000);
 
 }
