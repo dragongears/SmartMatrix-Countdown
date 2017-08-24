@@ -1,6 +1,6 @@
 /*
  * SmartMatrix Countdown
- * Version 0.1.1
+ * Version 0.1.2
  * Copyright (c) 2014 Art Dahm (art@dahm.com)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -24,16 +24,19 @@
 
 #include <Time.h>
 #include <SmartMatrix_32x32.h>
-//#include "bitmap.c"
-#include "bitmap_pride.c"
+#include "bitmap.c"
+//#include "bitmap_sw.c"
 
-SmartMatrix matrix;
-rgb24 textColor = {0xff, 0xff, 0xff};
+// Change these variables for a new countdown
+tmElements_t eventDate = {0, 0, 0, 0, 31, 7, CalendarYrToTm(2018)};
+char eventYear[] = "2018";
+
+rgb24 textColor = {0xfe, 0xd7, 0x1e};
 //rgb24 textColor = {0xf9, 0xff, 0xff};
 
-tmElements_t eventDate = {0, 0, 0, 0, 9, 6, CalendarYrToTm(2017)};
-
 time_t eventTime = makeTime(eventDate);
+
+SmartMatrix matrix;
 
 void setup() {
     setSyncProvider(getTeensy3Time);
@@ -44,7 +47,10 @@ void setup() {
     int i;
     rgb24 *buffer;
 
+    // Get the back buffer for th image
     buffer = matrix.backBuffer();
+
+    // Copy the image into the buffer
     if ((bitmap_image.width <= matrix.getScreenWidth()) &&
     (bitmap_image.height <= matrix.getScreenHeight()))
         for (i = 0; i < matrix.getScreenWidth() * matrix.getScreenHeight(); i++) {
@@ -53,6 +59,7 @@ void setup() {
             buffer[i].blue = bitmap_image.pixel_data[i * 3 + 2];
         }
 
+    // Show the image (swapBuffers is really a copy unless false is passed in)
     matrix.swapBuffers(true);
 }
 
@@ -61,38 +68,47 @@ void loop() {
     char date[] = "xxx";
     char days[] = "Days";
 
+    // Get the number of days until the event
     d = elapsedDays(eventTime) - elapsedDays(now());
 
-    matrix.fillRectangle(0, 20, 31, 31, {0x00, 0x00, 0x00});
+    // Clear the countdown area
+    matrix.fillRectangle(0, 22, 31, 31, {0x00, 0x00, 0x00});
 
     if (d > 0) {
+        // Fill in the date string withe the number of days
         date[0] = '0' + d / 100;
         date[1] = '0' + (d / 10) % 10;
         date[2] = '0' + d % 10;
 
+        // Choose the font size based on the number of digits
         if (d <= 9) {
             matrix.setFont(font8x13);
-            matrix.drawString(5, 18, textColor, &date[2]);
+            matrix.drawString(5, 20, textColor, &date[2]);
         } else if (d <= 99) {
             matrix.setFont(font6x10);
-            matrix.drawString(3, 21, textColor, &date[1]);
+            matrix.drawString(3, 23, textColor, &date[1]);
         } else {
             matrix.setFont(font5x7);
-            matrix.drawString(0, 23, textColor, date);
+            matrix.drawString(0, 25, textColor, date);
         }
 
+        // Erase the 's' in 'Days' if only one day left
         if (d == 1) days[3] = 0x00;
 
+        // Draw the word 'Days' or 'Day"
         matrix.setFont(font3x5);
-        matrix.drawString(17, 24, textColor, days);
+        matrix.drawString(17, 26, textColor, days);
     } else {
+        // Past the event date. Show the year in the countdown area
         matrix.setFont(font8x13);
-        matrix.drawString(0, 18, textColor, "2017");
+        matrix.drawString(0, 20, textColor, eventYear);
     }
 
+    // Show the updated display
     matrix.swapBuffers(false);
 
 
+    // Wait before updating display
     delay(10000);
 
 }
