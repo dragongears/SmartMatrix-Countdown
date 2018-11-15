@@ -31,7 +31,7 @@ SmartMatrix matrix;
 rgb24 textColor = {0xff, 0xff, 0xff};
 //rgb24 textColor = {0xf9, 0xff, 0xff};
 
-tmElements_t eventDate = {0, 0, 0, 0, 9, 6, CalendarYrToTm(2017)};
+tmElements_t eventDate = {0, 0, 0, 0, 13, 10, CalendarYrToTm(2018)};
 
 time_t eventTime = makeTime(eventDate);
 
@@ -86,8 +86,10 @@ void loop() {
         matrix.setFont(font3x5);
         matrix.drawString(17, 24, textColor, days);
     } else {
-        matrix.setFont(font8x13);
-        matrix.drawString(0, 18, textColor, "2017");
+//        matrix.setFont(font8x13);
+        matrix.setFont(font5x7);
+        matrix.drawString(1, 19, textColor, "I LOVE");
+        matrix.drawString(8, 26, textColor, "YOU");
     }
 
     matrix.swapBuffers(false);
