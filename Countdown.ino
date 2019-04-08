@@ -25,13 +25,13 @@
 #include <Time.h>
 #include <SmartMatrix_32x32.h>
 //#include "bitmap.c"
-#include "bitmap_pride.c"
+#include "bitmap_pride50.c"
 
 SmartMatrix matrix;
 rgb24 textColor = {0xff, 0xff, 0xff};
 //rgb24 textColor = {0xf9, 0xff, 0xff};
 
-tmElements_t eventDate = {0, 0, 0, 0, 13, 10, CalendarYrToTm(2018)};
+tmElements_t eventDate = {0, 0, 0, 0, 27, 6, CalendarYrToTm(2019)};
 
 time_t eventTime = makeTime(eventDate);
 
@@ -88,8 +88,8 @@ void loop() {
     } else {
 //        matrix.setFont(font8x13);
         matrix.setFont(font5x7);
-        matrix.drawString(1, 19, textColor, "I LOVE");
-        matrix.drawString(8, 26, textColor, "YOU");
+        matrix.drawString(8, 19, textColor, "NYC");
+        matrix.drawString(2, 26, textColor, "PRIDE");
     }
 
     matrix.swapBuffers(false);
