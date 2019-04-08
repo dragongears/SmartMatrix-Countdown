@@ -28,8 +28,8 @@
 //#include "bitmap_sw.c"
 
 // Change these variables for a new countdown
-tmElements_t eventDate = {0, 0, 0, 0, 31, 7, CalendarYrToTm(2018)};
-char eventYear[] = "2018";
+tmElements_t eventDate = {0, 0, 0, 0, 30, 7, CalendarYrToTm(2019)};
+char eventYear[] = "2019";
 
 rgb24 textColor = {0xfe, 0xd7, 0x1e};
 //rgb24 textColor = {0xf9, 0xff, 0xff};
