@@ -88,8 +88,8 @@ void loop() {
     } else {
 //        matrix.setFont(font8x13);
         matrix.setFont(font5x7);
-        matrix.drawString(8, 19, textColor, "NYC");
-        matrix.drawString(2, 26, textColor, "PRIDE");
+        matrix.drawString(10, 19, textColor, "NYC");
+        matrix.drawString(4, 26, textColor, "PRIDE");
     }
 
     matrix.swapBuffers(false);
