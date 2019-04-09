@@ -47,7 +47,7 @@ void setup() {
     int i;
     rgb24 *buffer;
 
-    // Get the back buffer for th image
+    // Get the back buffer for the image
     buffer = matrix.backBuffer();
 
     // Copy the image into the buffer
