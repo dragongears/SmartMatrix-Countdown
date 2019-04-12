@@ -78,27 +78,41 @@ void loop() {
         date[2] = '0' + d % 10;
 
         // Choose the font size based on the number of digits
-        if (d <= 9) {
+        if (d == 1) {
+		        // Erase the 's' in 'Days' if only one day left
+            days[3] = 0x00;
+
             matrix.setFont(font8x13);
             matrix.drawString(5, 18, textColor, &date[2]);
+
+	          // Draw the word 'Day'
+            matrix.setFont(font3x5);
+            matrix.drawString(15, 24, textColor, days);
+        } else if (d <= 9) {
+            matrix.setFont(font8x13);
+            matrix.drawString(3, 18, textColor, &date[2]);
+
+		        // Draw the word 'Days'
+		        matrix.setFont(font3x5);
+		        matrix.drawString(13, 24, textColor, days);
         } else if (d <= 99) {
             matrix.setFont(font6x10);
-            matrix.drawString(3, 21, textColor, &date[1]);
+            matrix.drawString(2, 21, textColor, &date[1]);
+
+		        // Draw the word 'Days'
+		        matrix.setFont(font3x5);
+		        matrix.drawString(15, 24, textColor, days);
         } else {
             matrix.setFont(font5x7);
             matrix.drawString(0, 23, textColor, date);
+
+		        // Draw the word 'Days'
+		        matrix.setFont(font3x5);
+		        matrix.drawString(16, 24, textColor, days);
         }
-
-        // Erase the 's' in 'Days' if only one day left
-        if (d == 1) days[3] = 0x00;
-
-        // Draw the word 'Days' or 'Day"
-        matrix.setFont(font3x5);
-        matrix.drawString(17, 24, textColor, days);
     } else {
-//        matrix.setFont(font8x13);
         matrix.setFont(font5x7);
-        matrix.drawString(10, 19, textColor, "NYC");
+        matrix.drawString(9, 19, textColor, "NYC");
         matrix.drawString(4, 26, textColor, "PRIDE");
     }
 
