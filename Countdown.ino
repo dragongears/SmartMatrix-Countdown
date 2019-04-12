@@ -28,8 +28,8 @@
 //#include "bitmap_sw.c"
 
 // Change these variables for a new countdown
-tmElements_t eventDate = {0, 0, 0, 0, 31, 7, CalendarYrToTm(2018)};
-char eventYear[] = "2018";
+tmElements_t eventDate = {0, 0, 0, 0, 30, 7, CalendarYrToTm(2019)};
+char eventYear[] = "2019";
 
 rgb24 textColor = {0xfe, 0xd7, 0x1e};
 //rgb24 textColor = {0xf9, 0xff, 0xff};
@@ -72,7 +72,7 @@ void loop() {
     d = elapsedDays(eventTime) - elapsedDays(now());
 
     // Clear the countdown area
-    matrix.fillRectangle(0, 22, 31, 31, {0x00, 0x00, 0x00});
+    matrix.fillRectangle(0, 21, 31, 31, {0x00, 0x00, 0x00});
 
     if (d > 0) {
         // Fill in the date string withe the number of days
@@ -81,23 +81,38 @@ void loop() {
         date[2] = '0' + d % 10;
 
         // Choose the font size based on the number of digits
-        if (d <= 9) {
+        if (d == 1) {
+		        // Erase the 's' in 'Days' if only one day left
+            days[3] = 0x00;
+
             matrix.setFont(font8x13);
             matrix.drawString(5, 20, textColor, &date[2]);
+
+	          // Draw the word 'Day'
+            matrix.setFont(font3x5);
+            matrix.drawString(15, 26, textColor, days);
+        } else if (d <= 9) {
+            matrix.setFont(font8x13);
+            matrix.drawString(3, 20, textColor, &date[2]);
+
+		        // Draw the word 'Days'
+		        matrix.setFont(font3x5);
+		        matrix.drawString(13, 26, textColor, days);
         } else if (d <= 99) {
             matrix.setFont(font6x10);
-            matrix.drawString(3, 23, textColor, &date[1]);
+            matrix.drawString(2, 22, textColor, &date[1]);
+
+		        // Draw the word 'Days'
+		        matrix.setFont(font3x5);
+		        matrix.drawString(15, 25, textColor, days);
         } else {
             matrix.setFont(font5x7);
-            matrix.drawString(0, 25, textColor, date);
+            matrix.drawString(0, 24, textColor, date);
+
+		        // Draw the word 'Days'
+            matrix.setFont(font3x5);
+		        matrix.drawString(17, 25, textColor, days);
         }
-
-        // Erase the 's' in 'Days' if only one day left
-        if (d == 1) days[3] = 0x00;
-
-        // Draw the word 'Days' or 'Day"
-        matrix.setFont(font3x5);
-        matrix.drawString(17, 26, textColor, days);
     } else {
         // Past the event date. Show the year in the countdown area
         matrix.setFont(font8x13);
