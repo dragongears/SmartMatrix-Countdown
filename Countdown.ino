@@ -69,7 +69,7 @@ void loop() {
     d = elapsedDays(eventTime) - elapsedDays(now());
 
     // Clear the countdown area
-    matrix.fillRectangle(0, 21, 31, 31, {0x00, 0x00, 0x00});
+    matrix.fillRectangle(0, 19, 31, 31, {0x00, 0x00, 0x00});
 
     if (d > 0) {
         // Fill in the date string withe the number of days
@@ -83,18 +83,18 @@ void loop() {
             days[3] = 0x00;
 
             matrix.setFont(font8x13);
-            matrix.drawString(5, 20, textColor, &date[2]);
+            matrix.drawString(5, 19, textColor, &date[2]);
 
 	          // Draw the word 'Day'
             matrix.setFont(font3x5);
-            matrix.drawString(15, 26, textColor, days);
+            matrix.drawString(15, 25, textColor, days);
         } else if (d <= 9) {
             matrix.setFont(font8x13);
-            matrix.drawString(3, 20, textColor, &date[2]);
+            matrix.drawString(3, 19, textColor, &date[2]);
 
 		        // Draw the word 'Days'
 		        matrix.setFont(font3x5);
-		        matrix.drawString(13, 26, textColor, days);
+		        matrix.drawString(13, 25, textColor, days);
         } else if (d <= 99) {
             matrix.setFont(font6x10);
             matrix.drawString(2, 22, textColor, &date[1]);
