@@ -78,23 +78,38 @@ void loop() {
         date[2] = '0' + d % 10;
 
         // Choose the font size based on the number of digits
-        if (d <= 9) {
+        if (d == 1) {
+		        // Erase the 's' in 'Days' if only one day left
+            days[3] = 0x00;
+
             matrix.setFont(font8x13);
             matrix.drawString(5, 20, textColor, &date[2]);
+
+	          // Draw the word 'Day'
+            matrix.setFont(font3x5);
+            matrix.drawString(15, 26, textColor, days);
+        } else if (d <= 9) {
+            matrix.setFont(font8x13);
+            matrix.drawString(3, 20, textColor, &date[2]);
+
+		        // Draw the word 'Days'
+		        matrix.setFont(font3x5);
+		        matrix.drawString(13, 26, textColor, days);
         } else if (d <= 99) {
             matrix.setFont(font6x10);
-            matrix.drawString(3, 23, textColor, &date[1]);
+            matrix.drawString(2, 22, textColor, &date[1]);
+
+		        // Draw the word 'Days'
+		        matrix.setFont(font3x5);
+		        matrix.drawString(15, 25, textColor, days);
         } else {
             matrix.setFont(font5x7);
-            matrix.drawString(0, 25, textColor, date);
-        }
+            matrix.drawString(0, 24, textColor, date);
 
-        // Erase the 's' in 'Days' if only one day left
-        if (d == 1) days[3] = 0x00;
-
-        // Draw the word 'Days' or 'Day"
+		        // Draw the word 'Days'
         matrix.setFont(font3x5);
-        matrix.drawString(17, 26, textColor, days);
+		        matrix.drawString(17, 25, textColor, days);
+        }
     } else {
         matrix.setFont(font3x5);
         matrix.drawString(2, 19, textColor, "EPISODE");
