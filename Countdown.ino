@@ -24,7 +24,6 @@
 
 #include <Time.h>
 #include <SmartMatrix_32x32.h>
-//#include "bitmap.c"
 #include "bitmap_pride50.c"
 
 SmartMatrix matrix;
