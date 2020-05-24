@@ -20,16 +20,15 @@
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-
-
+#include <Arduino.h>
 #include <Time.h>
 #include <SmartMatrix_32x32.h>
 #include "bitmap.c"
 //#include "bitmap_sw.c"
 
 // Change these variables for a new countdown
-tmElements_t eventDate = {0, 0, 0, 0, 28, 7, CalendarYrToTm(2020)};
-char eventYear[] = "2020";
+tmElements_t eventDate = {0, 0, 0, 0, 3, 8, CalendarYrToTm(2021)};
+char eventYear[] = "2021";
 
 rgb24 textColor = {0xfe, 0xd7, 0x1e};
 //rgb24 textColor = {0xf9, 0xff, 0xff};
@@ -124,11 +123,10 @@ void loop() {
 
 
     // Wait before updating display
-    delay(10000);
+    delay(10000UL);
 
 }
 
-time_t getTeensy3Time()
-{
+time_t getTeensy3Time() {
     return Teensy3Clock.get();
 }
