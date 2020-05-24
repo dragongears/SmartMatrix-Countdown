@@ -22,6 +22,7 @@
  */
 
 
+#include <Arduino.h>
 #include <Time.h>
 #include <SmartMatrix_32x32.h>
 #include "bitmap_pride50.c"
@@ -120,11 +121,10 @@ void loop() {
 
 
     // Wait before updating display
-    delay(10000);
+    delay(10000UL);
 
 }
 
-time_t getTeensy3Time()
-{
+time_t getTeensy3Time() {
     return Teensy3Clock.get();
 }
