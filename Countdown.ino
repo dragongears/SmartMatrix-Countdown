@@ -168,7 +168,3 @@ void loop() {
     delay(10000UL);
 
 }
-
-// time_t getTeensy3Time() {
-//     return Teensy3Clock.get();
-// }
