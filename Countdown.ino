@@ -21,7 +21,7 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 #include <Wire.h>
-#include <Time.h>
+#include <TimeLib.h>
 #include <RTClib.h>
 #include <MatrixHardware_ESP32_V0.h>
 #include <SmartMatrix.h>
@@ -46,8 +46,8 @@ RTC_DS1307 rtc;
 
 
 // Change these variables for a new countdown
-tmElements_t eventDate = {0, 0, 0, 0, 16, 9, CalendarYrToTm(2021)};
-char eventYear[] = "2021";
+tmElements_t eventDate = {0, 0, 0, 0, 2, 8, CalendarYrToTm(2022)};
+char eventYear[] = "2022";
 
 rgb24 textColor = {0xff, 0xe2, 0x3b};
 //rgb24 textColor = {0xf9, 0xff, 0xff};
