@@ -144,7 +144,7 @@ void loop() {
     Serial.println("Failed to obtain time");
   } else {
     // Get the number of days until the event
-    d = elapsedDays(eventTime) - elapsedDays(mktime(&timeinfo));
+    d = elapsedDays(eventTime) - elapsedDays(mktime(&timeinfo) + gmtOffset_sec);
 
     // Clear the countdown area
     backgroundLayer.fillRectangle(0, 21, 31, 31, {0x00, 0x00, 0x00});
