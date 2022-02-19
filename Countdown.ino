@@ -30,7 +30,7 @@
 #include "gencon.c"
 
 #define COLOR_DEPTH 24                  // Choose the color depth used for storing pixels in the layers: 24 or 48 (24 is good for most sketches - If the sketch uses type `rgb24` directly, COLOR_DEPTH must be 24)
-const uint16_t kMatrixWidth = 32;       // Set to the width of your display, must be a multiple of 8
+const uint16_t kMatrixWidth = 64;       // Set to the width of your display, must be a multiple of 8
 const uint16_t kMatrixHeight = 32;      // Set to the height of your display
 const uint8_t kRefreshDepth = 36;       // Tradeoff of color quality vs refresh rate, max brightness, and RAM usage.  36 is typically good, drop down to 24 if you need to.  On Teensy, multiples of 3, up to 48: 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45, 48.  On ESP32: 24, 36, 48
 const uint8_t kDmaBufferRows = 4;       // known working: 2-4, use 2 to save RAM, more to keep from dropping frames and automatically lowering refresh rate.  (This isn't used on ESP32, leave as default)
@@ -51,7 +51,7 @@ const int   daylightOffset_sec = 3600;
 tm eventDate = {0, 0, 0, 2, 8 - 1, 2022 - 1900, 0, 0, 0};
 char eventYear[] = "2022";
 
-rgb24 textColor = {0xff, 0xe2, 0x3b};
+rgb24 textColor = {0xff, 0x3b, 0xe2};
 
 time_t eventTime = mktime(&eventDate);
 
@@ -116,6 +116,8 @@ void setup() {
   matrix.setBrightness(brightness*(255/100));
 
     int i;
+    int x;
+    int y;
     rgb24 *buffer;
 
     // Get the back buffer for the image
@@ -124,11 +126,19 @@ void setup() {
     // Copy the image into the buffer
     if ((bitmap_image.width <= matrix.getScreenWidth()) &&
     (bitmap_image.height <= matrix.getScreenHeight()))
-        for (i = 0; i < matrix.getScreenWidth() * matrix.getScreenHeight(); i++) {
-            buffer[i].red = bitmap_image.pixel_data[i * 3 + 0];
-            buffer[i].green = bitmap_image.pixel_data[i * 3 + 1];
-            buffer[i].blue = bitmap_image.pixel_data[i * 3 + 2];
+      // for (i = 0; i < matrix.getScreenWidth() * matrix.getScreenHeight(); i++) {
+      //     buffer[i].red = bitmap_image.pixel_data[i * 3 + 0];
+      //     buffer[i].green = bitmap_image.pixel_data[i * 3 + 1];
+      //     buffer[i].blue = bitmap_image.pixel_data[i * 3 + 2];
+      // }
+
+      for (y = 0; y < bitmap_image.height; y++) {
+        for (x = 0; x < bitmap_image.width; x++) {
+            buffer[matrix.getScreenWidth() * y + x + 16].red = bitmap_image.pixel_data[(y * bitmap_image.width + x) * 3 + 0];
+            buffer[matrix.getScreenWidth() * y + x + 16].blue = bitmap_image.pixel_data[(y * bitmap_image.width + x) * 3 + 1];
+            buffer[matrix.getScreenWidth() * y + x + 16].green = bitmap_image.pixel_data[(y * bitmap_image.width + x) * 3 + 2];
         }
+      }
 
     // Show the image (swapBuffers is really a copy unless false is passed in)
     backgroundLayer.swapBuffers(true);
@@ -147,7 +157,7 @@ void loop() {
     d = elapsedDays(eventTime) - elapsedDays(mktime(&timeinfo) + gmtOffset_sec);
 
     // Clear the countdown area
-    backgroundLayer.fillRectangle(0, 21, 31, 31, {0x00, 0x00, 0x00});
+    backgroundLayer.fillRectangle(0, 21, 63, 31, {0x00, 0x00, 0x00});
 
     if (d > 0) {
       // Fill in the date string withe the number of days
@@ -161,37 +171,37 @@ void loop() {
           days[3] = 0x00;
 
           backgroundLayer.setFont(font8x13);
-          backgroundLayer.drawString(5, 20, textColor, &date[2]);
+          backgroundLayer.drawString(21, 20, textColor, &date[2]);
 
           // Draw the word 'Day'
           backgroundLayer.setFont(font3x5);
-          backgroundLayer.drawString(15, 26, textColor, days);
+          backgroundLayer.drawString(31, 26, textColor, days);
       } else if (d <= 9) {
           backgroundLayer.setFont(font8x13);
-          backgroundLayer.drawString(3, 20, textColor, &date[2]);
+          backgroundLayer.drawString(19, 20, textColor, &date[2]);
 
           // Draw the word 'Days'
           backgroundLayer.setFont(font3x5);
-          backgroundLayer.drawString(13, 26, textColor, days);
+          backgroundLayer.drawString(29, 26, textColor, days);
       } else if (d <= 99) {
           backgroundLayer.setFont(font6x10);
-          backgroundLayer.drawString(2, 22, textColor, &date[1]);
+          backgroundLayer.drawString(18, 22, textColor, &date[1]);
 
           // Draw the word 'Days'
           backgroundLayer.setFont(font3x5);
-          backgroundLayer.drawString(15, 25, textColor, days);
+          backgroundLayer.drawString(31, 25, textColor, days);
       } else {
           backgroundLayer.setFont(font5x7);
-          backgroundLayer.drawString(0, 24, textColor, date);
+          backgroundLayer.drawString(16, 24, textColor, date);
 
           // Draw the word 'Days'
           backgroundLayer.setFont(font3x5);
-          backgroundLayer.drawString(17, 25, textColor, days);
+          backgroundLayer.drawString(33, 25, textColor, days);
       }
     } else {
         // Past the event date. Show the year in the countdown area
         backgroundLayer.setFont(font8x13);
-        backgroundLayer.drawString(0, 20, textColor, eventYear);
+        backgroundLayer.drawString(16, 20, textColor, eventYear);
     }
 
     // Show the updated display
