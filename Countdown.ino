@@ -37,9 +37,11 @@ const uint8_t kDmaBufferRows = 4;       // known working: 2-4, use 2 to save RAM
 const uint8_t kPanelType = SM_PANELTYPE_HUB75_32ROW_MOD16SCAN;   // Choose the configuration that matches your panels.  See more details in MatrixCommonHub75.h and the docs: https://github.com/pixelmatix/SmartMatrix/wiki
 const uint32_t kMatrixOptions = (SM_HUB75_OPTIONS_NONE);        // see docs for options: https://github.com/pixelmatix/SmartMatrix/wiki
 const uint8_t kBackgroundLayerOptions = (SM_BACKGROUND_OPTIONS_NONE);
+const uint8_t kIndexedLayerOptions = (SM_INDEXED_OPTIONS_NONE);
 
 SMARTMATRIX_ALLOCATE_BUFFERS(matrix, kMatrixWidth, kMatrixHeight, kRefreshDepth, kDmaBufferRows, kPanelType, kMatrixOptions);
 SMARTMATRIX_ALLOCATE_BACKGROUND_LAYER(backgroundLayer, kMatrixWidth, kMatrixHeight, COLOR_DEPTH, kBackgroundLayerOptions);
+SMARTMATRIX_ALLOCATE_INDEXED_LAYER(indexedLayer, kMatrixWidth, kMatrixHeight, COLOR_DEPTH, kIndexedLayerOptions);
 
 int brightness = 60;
 
@@ -104,6 +106,27 @@ void getNetworkTime() {
   WiFi.mode(WIFI_OFF);
 }
 
+void drawBitmap(int16_t x1, int16_t y1) {
+  int x;
+  int y;
+  rgb24 *buffer;
+
+  // Get the back buffer for the image
+  buffer = backgroundLayer.backBuffer();
+
+  // Copy the image into the buffer
+  if ((bitmap_image.width <= matrix.getScreenWidth()) &&
+  (bitmap_image.height <= matrix.getScreenHeight()))
+
+  for (y = 0; y < bitmap_image.height; y++) {
+    for (x = 0; x < bitmap_image.width; x++) {
+      buffer[matrix.getScreenWidth() * (y + y1) + x + x1].red = bitmap_image.pixel_data[(y * bitmap_image.width + x) * 3 + 0];
+      buffer[matrix.getScreenWidth() * (y + y1) + x + x1].blue = bitmap_image.pixel_data[(y * bitmap_image.width + x) * 3 + 1];
+      buffer[matrix.getScreenWidth() * (y + y1) + x + x1].green = bitmap_image.pixel_data[(y * bitmap_image.width + x) * 3 + 2];
+    }
+  }
+}
+
 void setup() {
   Serial.begin(115200);
   delay(1000);
@@ -112,40 +135,24 @@ void setup() {
   getNetworkTime();
 
   matrix.addLayer(&backgroundLayer);
+  matrix.addLayer(&indexedLayer);
   matrix.begin();
   matrix.setBrightness(brightness*(255/100));
+  indexedLayer.setRotation(rotation90);
+  indexedLayer.setIndexedColor(1, textColor);
+  indexedLayer.setFont(font5x7);
+  indexedLayer.drawString(1, 14, 1, eventYear);
+  indexedLayer.swapBuffers();
 
-    int i;
-    int x;
-    int y;
-    rgb24 *buffer;
+  drawBitmap(13, 1);
 
-    // Get the back buffer for the image
-    buffer = backgroundLayer.backBuffer();
-
-    // Copy the image into the buffer
-    if ((bitmap_image.width <= matrix.getScreenWidth()) &&
-    (bitmap_image.height <= matrix.getScreenHeight()))
-      // for (i = 0; i < matrix.getScreenWidth() * matrix.getScreenHeight(); i++) {
-      //     buffer[i].red = bitmap_image.pixel_data[i * 3 + 0];
-      //     buffer[i].green = bitmap_image.pixel_data[i * 3 + 1];
-      //     buffer[i].blue = bitmap_image.pixel_data[i * 3 + 2];
-      // }
-
-      for (y = 0; y < bitmap_image.height; y++) {
-        for (x = 0; x < bitmap_image.width; x++) {
-            buffer[matrix.getScreenWidth() * y + x + 16].red = bitmap_image.pixel_data[(y * bitmap_image.width + x) * 3 + 0];
-            buffer[matrix.getScreenWidth() * y + x + 16].blue = bitmap_image.pixel_data[(y * bitmap_image.width + x) * 3 + 1];
-            buffer[matrix.getScreenWidth() * y + x + 16].green = bitmap_image.pixel_data[(y * bitmap_image.width + x) * 3 + 2];
-        }
-      }
-
-    // Show the image (swapBuffers is really a copy unless false is passed in)
-    backgroundLayer.swapBuffers(true);
+  // Show the image (swapBuffers is really a copy unless false is passed in)
+  backgroundLayer.swapBuffers(true);
 }
 
 void loop() {
   int16_t d = 0;
+  int16_t daysX = 0;
   char date[] = "xxx";
   char days[] = "Days";
 
@@ -165,48 +172,43 @@ void loop() {
       date[1] = '0' + (d / 10) % 10;
       date[2] = '0' + d % 10;
 
+      backgroundLayer.setFont(font8x13);
+
       // Choose the font size based on the number of digits
       if (d == 1) {
-          // Erase the 's' in 'Days' if only one day left
-          days[3] = 0x00;
+        // Erase the 's' in 'Days' if only one day left
+        days[3] = 0x00;
 
-          backgroundLayer.setFont(font8x13);
-          backgroundLayer.drawString(21, 20, textColor, &date[2]);
+        backgroundLayer.drawString(22, 20, textColor, &date[2]);
 
-          // Draw the word 'Day'
-          backgroundLayer.setFont(font3x5);
-          backgroundLayer.drawString(31, 26, textColor, days);
+        // Draw the word 'Day'
+        daysX = 32;
       } else if (d <= 9) {
-          backgroundLayer.setFont(font8x13);
-          backgroundLayer.drawString(19, 20, textColor, &date[2]);
+        backgroundLayer.drawString(20, 20, textColor, &date[2]);
 
-          // Draw the word 'Days'
-          backgroundLayer.setFont(font3x5);
-          backgroundLayer.drawString(29, 26, textColor, days);
+        // Draw the word 'Days'
+        daysX = 30;
       } else if (d <= 99) {
-          backgroundLayer.setFont(font6x10);
-          backgroundLayer.drawString(18, 22, textColor, &date[1]);
+        backgroundLayer.drawString(15, 20, textColor, &date[1]);
 
-          // Draw the word 'Days'
-          backgroundLayer.setFont(font3x5);
-          backgroundLayer.drawString(31, 25, textColor, days);
+        // Draw the word 'Days'
+        daysX = 34;
       } else {
-          backgroundLayer.setFont(font5x7);
-          backgroundLayer.drawString(16, 24, textColor, date);
+        backgroundLayer.drawString(11, 20, textColor, date);
 
-          // Draw the word 'Days'
-          backgroundLayer.setFont(font3x5);
-          backgroundLayer.drawString(33, 25, textColor, days);
+        // Draw the word 'Days'
+        daysX = 38;
       }
+      backgroundLayer.setFont(font3x5);
+      backgroundLayer.drawString(daysX, 26, textColor, days);
     } else {
-        // Past the event date. Show the year in the countdown area
-        backgroundLayer.setFont(font8x13);
-        backgroundLayer.drawString(16, 20, textColor, eventYear);
+      // Past the event date. Show the year in the countdown area
+      backgroundLayer.setFont(font8x13);
+      backgroundLayer.drawString(16, 20, textColor, eventYear);
     }
 
     // Show the updated display
     backgroundLayer.swapBuffers(false);
-
 
     // Wait before updating display
     delay(10000UL);
