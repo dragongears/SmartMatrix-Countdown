@@ -51,7 +51,7 @@ const int   daylightOffset_sec = 3600;
 
 // Change these variables for a new countdown
 tm eventDate = {0, 0, 0, 2, 8 - 1, 2022 - 1900, 0, 0, 0};
-char eventYear[] = "2022";
+char eventYear[] = "2O22";
 
 rgb24 textColor = {0xff, 0x3b, 0xe2};
 
@@ -202,9 +202,9 @@ void loop() {
       backgroundLayer.setFont(font3x5);
       backgroundLayer.drawString(daysX, 26, textColor, days);
     } else {
-      // Past the event date. Show the year in the countdown area
-      backgroundLayer.setFont(font8x13);
-      backgroundLayer.drawString(16, 20, textColor, eventYear);
+      // Past the event date. Show a message in the countdown area
+      backgroundLayer.setFont(font5x7);
+      backgroundLayer.drawString(2, 24, textColor, "INDIANAPOLIS");
     }
 
     // Show the updated display
