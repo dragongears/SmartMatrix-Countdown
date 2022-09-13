@@ -27,7 +27,7 @@
 #include <time.h>
 #include <MatrixHardware_ESP32_V0.h>
 #include <SmartMatrix.h>
-#include "gencon.c"
+#include "pax_unplugged_logo_34x12.c"
 
 #define COLOR_DEPTH 24                  // Choose the color depth used for storing pixels in the layers: 24 or 48 (24 is good for most sketches - If the sketch uses type `rgb24` directly, COLOR_DEPTH must be 24)
 const uint16_t kMatrixWidth = 64;       // Set to the width of your display, must be a multiple of 8
@@ -50,10 +50,10 @@ const long  gmtOffset_sec = -3600 * 5;
 const int   daylightOffset_sec = 3600;
 
 // Change these variables for a new countdown
-tm eventDate = {0, 0, 0, 2, 8 - 1, 2023 - 1900, 0, 0, 0};
+tm eventDate = {0, 0, 0, 30, 11 - 1, 2022 - 1900, 0, 0, 0};
 char eventYear[] = "2O23";
 
-rgb24 textColor = {0xff, 0x3b, 0xe2};
+rgb24 textColor = {180, 187, 130};
 
 time_t eventTime = mktime(&eventDate);
 
@@ -138,13 +138,15 @@ void setup() {
   matrix.addLayer(&indexedLayer);
   matrix.begin();
   matrix.setBrightness(brightness*(255/100));
-  indexedLayer.setRotation(rotation90);
-  indexedLayer.setIndexedColor(1, textColor);
-  indexedLayer.setFont(font5x7);
-  indexedLayer.drawString(1, 14, 1, eventYear);
-  indexedLayer.swapBuffers();
+  // indexedLayer.setRotation(rotation90);
+  // indexedLayer.setIndexedColor(1, textColor);
+  // indexedLayer.setFont(font5x7);
+  // indexedLayer.drawString(1, 14, 1, eventYear);
+  // indexedLayer.swapBuffers();
 
-  drawBitmap(13, 1);
+  drawBitmap(16, 1);
+  backgroundLayer.setFont(font5x7);
+  backgroundLayer.drawString(11, 15, textColor, "UNPLUGGED");
 
   // Show the image (swapBuffers is really a copy unless false is passed in)
   backgroundLayer.swapBuffers(true);
@@ -204,7 +206,7 @@ void loop() {
     } else {
       // Past the event date. Show a message in the countdown area
       backgroundLayer.setFont(font5x7);
-      backgroundLayer.drawString(2, 24, textColor, "INDIANAPOLIS");
+      backgroundLayer.drawString(2, 24, textColor, "PHILADELPHIA");
     }
 
     // Show the updated display
