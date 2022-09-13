@@ -50,8 +50,8 @@ const long  gmtOffset_sec = -3600 * 5;
 const int   daylightOffset_sec = 3600;
 
 // Change these variables for a new countdown
-tm eventDate = {0, 0, 0, 2, 8 - 1, 2022 - 1900, 0, 0, 0};
-char eventYear[] = "2O22";
+tm eventDate = {0, 0, 0, 2, 8 - 1, 2023 - 1900, 0, 0, 0};
+char eventYear[] = "2O23";
 
 rgb24 textColor = {0xff, 0x3b, 0xe2};
 
@@ -154,7 +154,7 @@ void loop() {
   int16_t d = 0;
   int16_t daysX = 0;
   char date[] = "xxx";
-  char days[] = "Days";
+  char days[] = "DAYS";
 
   struct tm timeinfo;
   if(!getLocalTime(&timeinfo)){
@@ -179,28 +179,28 @@ void loop() {
         // Erase the 's' in 'Days' if only one day left
         days[3] = 0x00;
 
-        backgroundLayer.drawString(22, 20, textColor, &date[2]);
+        backgroundLayer.drawString(15, 21, textColor, &date[2]);
 
         // Draw the word 'Day'
-        daysX = 32;
+        daysX = 26;
       } else if (d <= 9) {
-        backgroundLayer.drawString(20, 20, textColor, &date[2]);
+        backgroundLayer.drawString(12, 21, textColor, &date[2]);
+
+        // Draw the word 'Days'
+        daysX = 22;
+      } else if (d <= 99) {
+        backgroundLayer.drawString(6, 21, textColor, &date[1]);
+
+        // Draw the word 'Days'
+        daysX = 27;
+      } else {
+        backgroundLayer.drawString(3, 21, textColor, date);
 
         // Draw the word 'Days'
         daysX = 30;
-      } else if (d <= 99) {
-        backgroundLayer.drawString(15, 20, textColor, &date[1]);
-
-        // Draw the word 'Days'
-        daysX = 34;
-      } else {
-        backgroundLayer.drawString(11, 20, textColor, date);
-
-        // Draw the word 'Days'
-        daysX = 38;
       }
-      backgroundLayer.setFont(font3x5);
-      backgroundLayer.drawString(daysX, 26, textColor, days);
+      // backgroundLayer.setFont(font3x5);
+      backgroundLayer.drawString(daysX, 21, textColor, days);
     } else {
       // Past the event date. Show a message in the countdown area
       backgroundLayer.setFont(font5x7);
