@@ -206,7 +206,7 @@ void loop() {
     } else {
       // Past the event date. Show a message in the countdown area
       backgroundLayer.setFont(font5x7);
-      backgroundLayer.drawString(2, 24, textColor, "PHILADELPHIA");
+      backgroundLayer.drawString(3, 24, textColor, "PHILADELPHIA");
     }
 
     // Show the updated display
