@@ -49,7 +49,7 @@ const long  gmtOffset_sec = -3600 * 5;
 const int   daylightOffset_sec = 3600;
 
 // Change these variables for a new countdown
-tm eventDate = {0, 0, 0, 1, 8 - 1, 2024 - 1900, 0, 0, 0};
+tm eventDate = {0, 0, 0, 30, 7 - 1, 2024 - 1900, 0, 0, 0};
 char eventYear[] = "2O24";
 
 rgb24 textColor = {0xff, 0x3b, 0xe2};
