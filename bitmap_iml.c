@@ -1,6 +1,6 @@
 /* GIMP RGB C-Source image dump (bitmap_iml.c) */
 
-static const struct {
+static const struct bitmap_t {
   unsigned int 	 width;
   unsigned int 	 height;
   unsigned int 	 bytes_per_pixel; /* 2:RGB16, 3:RGB, 4:RGBA */ 
@@ -106,4 +106,3 @@ static const struct {
   "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
   "\0\0\0\0\0\0\0\0\0",
 };
-

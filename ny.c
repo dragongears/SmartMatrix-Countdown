@@ -1,6 +1,6 @@
 /* GIMP RGB C-Source image dump (ny.c) */
 
-static const struct {
+static const struct bitmap_t {
   unsigned int 	 width;
   unsigned int 	 height;
   unsigned int 	 bytes_per_pixel; /* 2:RGB16, 3:RGB, 4:RGBA */ 
@@ -55,4 +55,3 @@ static const struct {
   "\320\020\020\017\310\310\310\350\350\350\\\\\\\000\000\000\000\000\000\000\000\000\000\000\000\274\274"
   "\274\330\330\330\321\321\321\323\323\323\330\330\330OOO\000\000\000\000\000\000",
 };
-
