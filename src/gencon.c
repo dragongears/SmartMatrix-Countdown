@@ -1,11 +1,8 @@
 /* GIMP RGB C-Source image dump (gencon.c) */
 
-static const struct bitmap_t {
-  unsigned int 	 width;
-  unsigned int 	 height;
-  unsigned int 	 bytes_per_pixel; /* 2:RGB16, 3:RGB, 4:RGBA */
-  unsigned char	 pixel_data[32 * 32 * 3 + 1];
-} bitmap_image = {
+#include "gencon.h"
+
+const struct bitmap_t bitmap_image = {
   32, 32, 3,
   "\000\000\000\000\000\000\000\000\000\000\000\000\377\342;\377\342;\377\342;\377\342;\377\342;\221"
   "g%\000\000\000\317\227C\377\342;\377\342;\377\342;\377\342;\377\342;\377\342;\377"

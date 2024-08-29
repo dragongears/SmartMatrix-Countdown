@@ -1,11 +1,8 @@
 /* GIMP RGB C-Source image dump (bitmap.c) */
 
-static const struct {
-  unsigned int 	 width;
-  unsigned int 	 height;
-  unsigned int 	 bytes_per_pixel; /* 2:RGB16, 3:RGB, 4:RGBA */ 
-  unsigned char	 pixel_data[32 * 32 * 3 + 1];
-} bitmap_image = {
+#include "bitmap.h"
+
+static const struct bitmap_t bitmap_image = {
   32, 32, 3,
   "\0\0\0\0\0\0\0\0\0\1\1\0!\34\4;3\7+%\5\7\6\1\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
   "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
