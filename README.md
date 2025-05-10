@@ -1,5 +1,7 @@
 # Countdown
 
+To configure WiFi, connect to "Countdown" on any device that has a web browser.
+
 Count down the number of days to an event.
 
 See the SmartMatrix BitmapTest example for how to created bitmaps for use with this program.

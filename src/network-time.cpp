@@ -1,5 +1,6 @@
 #include "WiFi_Network.h"
 #include "network-time.h"
+#include <WiFiManager.h>
 
 const int   daylightOffset_sec = 3600;
 const long  gmtOffset_sec = -3600 * 5;
@@ -42,13 +43,24 @@ void NetworkTime::printLocalTime() {
 }
 
 void NetworkTime::wifiConnect(const char* ssid, const char* pw) {
+  WiFiManager wm;
+  // wm.resetSettings();
+
+  bool res;
   uint8_t count = 20;
+
   // Connect to wifi
   Serial.println("");
   Serial.print("Connecting to ");
   Serial.println(ssid);
 
-  WiFi.begin(ssid, pw);
+  // res = wm.autoConnect(ssid, pw);
+  res = wm.autoConnect(ssid);
+
+  if (!res) {
+    Serial.println("Failed to connect");
+    return;
+  }
 
   while (WiFi.status() != WL_CONNECTED && count > 0) {
     count--;
