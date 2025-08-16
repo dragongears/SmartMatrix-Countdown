@@ -27,8 +27,8 @@
 #include "gencon.h"
 
 // Change these variables for a new countdown
-tm eventDate = {0, 0, 0, 29, 7 - 1, 2025 - 1900, 0, 0, 0};
-char eventYear[] = "2O25";
+tm eventDate = {0, 0, 0, 28, 7 - 1, 2026 - 1900, 0, 0, 0};
+char eventYear[] = "2O26";
 
 rgb24 textColor = {0xff, 0x3b, 0xe2};
 
