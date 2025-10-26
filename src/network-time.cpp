@@ -20,11 +20,11 @@ boolean NetworkTime::getLocalTime(){
 
 void NetworkTime::getNetworkTime() {
   // copyDownloadImage();
-  NetworkTime::wifiConnect(ssid, password);
+  wifiConnect(ssid, password);
 
   //init and get the time
   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
-  NetworkTime::printLocalTime();
+  printLocalTime();
 
   //disconnect WiFi as it's no longer needed
   WiFi.disconnect();

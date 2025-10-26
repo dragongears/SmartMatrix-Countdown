@@ -47,13 +47,13 @@ void Draw::drawCountdown(int16_t d, rgb24 textColor) {
 
   if (d > 0) {
     if (d < 7 || loopCount / 4 % 2 == 0) {
-      Draw::drawDays(d, textColor);
+      drawDays(d, textColor);
     } else if (d == 7) {
-      Draw::drawOneWeek(textColor);
+      drawOneWeek(textColor);
     } else if (d % 7 == 0) {
-      Draw::drawWeeks(d, textColor);
+      drawWeeks(d, textColor);
     } else {
-      Draw::drawWeeksDays(d, textColor);
+      drawWeeksDays(d, textColor);
     }
   } else {
     // Past the event date. Show a message in the countdown area
@@ -183,7 +183,7 @@ void Draw::init(char* eventYear, rgb24 textColor) {
   indexedLayer.drawString(1, 14, 1, eventYear);
   indexedLayer.swapBuffers();
 
-  Draw::drawBitmap(13, 1, &bitmap_image);
+  drawBitmap(13, 1, &bitmap_image);
 
   // Show the image (swapBuffers is really a copy unless false is passed in)
   backgroundLayer.swapBuffers(true);
