@@ -44,6 +44,8 @@ void NetworkTime::printLocalTime() {
 
 void NetworkTime::wifiConnect(const char* ssid, const char* pw) {
   WiFiManager wm;
+  // Uncomment to reset WiFi settings on startup
+  // Then go to 192.168.4.1 in browser to set up
   // wm.resetSettings();
 
   bool res;
