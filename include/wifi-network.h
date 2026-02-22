@@ -3,7 +3,7 @@
 
 // To configure WiFi, connect to "Countdown" on any device that has a web browser.
 
-const char* ssid = "Countdown";  // insert your own ssid
-const char* password = "";  // and password
+#define WIFI_SSID "Countdown"  // insert your own ssid
+#define WIFI_PASSWORD ""  // and password
 
 #endif /* WIFI_NETWORK_H */

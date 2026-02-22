@@ -1,0 +1,7 @@
+// Copy this file to include/wifi-network.h and fill in your real keys.
+// Keep include/wifi-network.h out of version control (.gitignore).
+//
+// This file is now a reference - update include/wifi-network.h directly:
+//
+// #define SSID "YOUR_SSID_HERE"
+// #define PASSWORD "YOUR_PASSWORD_HERE"

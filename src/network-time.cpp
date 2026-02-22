@@ -1,4 +1,4 @@
-#include "wifi_network.h"
+#include "wifi-network.h"
 #include "network-time.h"
 #include <WiFiManager.h>
 
@@ -20,7 +20,7 @@ boolean NetworkTime::getLocalTime(){
 
 void NetworkTime::getNetworkTime() {
   // copyDownloadImage();
-  wifiConnect(ssid, password);
+  wifiConnect(WIFI_SSID, WIFI_PASSWORD);
 
   //init and get the time
   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
